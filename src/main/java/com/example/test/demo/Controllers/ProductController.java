@@ -55,7 +55,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     ResponseEntity<ResponseObject> deleteProduct(@PathVariable Long id){
         boolean exists =repository.existsById(id);
-        if(!exists){
+        if(exists){
             return      ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("ok","Delete product Successfully","")
             );

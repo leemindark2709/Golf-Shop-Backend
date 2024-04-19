@@ -50,7 +50,8 @@ public class AccountController {
     @DeleteMapping("/{id}")
     ResponseEntity<ResponseObject> deleteAccount(@PathVariable int id) {
         boolean exists = accountRepository.existsById(id);
-        if (!exists) {
+        if (exists) {
+            accountRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("ok", "Xóa tài khoản thành công", "")
             );
