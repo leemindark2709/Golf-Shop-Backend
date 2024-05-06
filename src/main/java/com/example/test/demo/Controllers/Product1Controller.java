@@ -4,6 +4,9 @@ import com.example.test.demo.Models.Product1;
 import com.example.test.demo.Models.ResponseObject;
 import com.example.test.demo.Repositories.Product1Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -80,5 +83,14 @@ public class Product1Controller {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok", "update successfully", updateProduct)
         );
+    }
+
+    @GetMapping("/paged")
+    ResponseEntity<List<Product1>> getProductsPaged(@RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "10") int sizepage) {
+        Pageable pageable = PageRequest.of(page, sizepage);
+        Page<Product1> productPage = repository1.findAll(pageable);
+        List<Product1> products = productPage.getContent();
+        return ResponseEntity.status(HttpStatus.OK).body(products);
     }
 }
