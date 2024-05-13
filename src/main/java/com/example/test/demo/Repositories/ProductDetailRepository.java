@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductDetailRepository extends JpaRepository<ProductDetail, Integer> {
+    ProductDetail findByProductID(Long productID);
     // Bạn có thể định nghĩa các phương thức truy vấn tùy chỉnh ở đây nếu cần
 }

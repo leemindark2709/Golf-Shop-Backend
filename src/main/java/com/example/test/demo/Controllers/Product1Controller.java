@@ -39,58 +39,54 @@ public class Product1Controller {
 
     @PostMapping("/insert")
     ResponseEntity<ResponseObject> insertProduct(@RequestBody Product1 newProduct) {
-        List<Product1> foundProducts = repository1.findByName(newProduct.getName().trim());
-        if (foundProducts.size() > 0) {
-            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+        if (newProduct.getTitle() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    new ResponseObject("failed", "product title cannot be null", "")
+            );
+        }
+
+        List<Product1> foundProducts = repository1.findByTitle(newProduct.getTitle().trim());
+        if (!foundProducts.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(
                     new ResponseObject("failed", "product name already taken", "")
             );
         }
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("ok", "insert product successfully", repository1.save(newProduct))
-        );
-    }
 
-    @DeleteMapping("/{id}")
-    ResponseEntity<ResponseObject> deleteProduct(@PathVariable Long id) {
-        boolean exists = repository1.existsById(id);
-        if (exists) {
-            repository1.deleteById(id);
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("ok", "Delete product Successfully", "")
-            );
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                new ResponseObject("failed", "can't find product to delete ", "")
+        Product1 savedProduct = repository1.save(newProduct);
+        return ResponseEntity.ok().body(
+                new ResponseObject("ok", "insert product successfully", savedProduct)
         );
     }
 
     @PutMapping("/{id}")
     ResponseEntity<ResponseObject> updateProduct(@RequestBody Product1 newProduct, @PathVariable Long id) {
-        Product1 updateProduct = repository1.findById(id)
+        if (!repository1.existsById(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject("failed", "product not found with id: " + id, "")
+            );
+        }
+
+        Product1 updatedProduct = repository1.findById(id)
                 .map(product -> {
-                    product.setName(newProduct.getName());
+                    product.setTitle(newProduct.getTitle());
                     product.setStatus(newProduct.getStatus());
                     product.setQuantity(newProduct.getQuantity());
                     product.setCateID(newProduct.getCateID());
                     product.setSupplierID(newProduct.getSupplierID());
-                    product.setRate(newProduct.getRate()); // Cập nhật trường rate
-                    product.setDateReleases(newProduct.getDateReleases()); // Cập nhật trường dateReleases
+                    product.setRate(newProduct.getRate());
+                    product.setDateReleases(newProduct.getDateReleases());
                     return repository1.save(product);
-                }).orElseGet(() -> {
-                    newProduct.setProductID(id);
-                    return repository1.save(newProduct);
-                });
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("ok", "update successfully", updateProduct)
-        );
+                }).orElse(null);
+
+        if (updatedProduct != null) {
+            return ResponseEntity.ok().body(
+                    new ResponseObject("ok", "update successfully", updatedProduct)
+            );
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponseObject("failed", "failed to update product with id: " + id, "")
+            );
+        }
     }
 
-    @GetMapping("/paged")
-    ResponseEntity<List<Product1>> getProductsPaged(@RequestParam(defaultValue = "0") int page,
-                                                    @RequestParam(defaultValue = "10") int sizepage) {
-        Pageable pageable = PageRequest.of(page, sizepage);
-        Page<Product1> productPage = repository1.findAll(pageable);
-        List<Product1> products = productPage.getContent();
-        return ResponseEntity.status(HttpStatus.OK).body(products);
-    }
 }

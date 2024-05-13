@@ -3,7 +3,6 @@ package com.example.test.demo.Models;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.Objects;
 
 
@@ -31,7 +30,7 @@ public class ProductDetail {
     private Integer size;
 
     @Column(name = "price")
-    private BigDecimal price;
+    private int price;
 
     @Column(name = "discount")
     private BigDecimal discount;
@@ -86,11 +85,11 @@ public class ProductDetail {
         this.size = size;
     }
 
-    public BigDecimal getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
