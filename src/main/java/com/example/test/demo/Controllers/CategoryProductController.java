@@ -55,6 +55,8 @@ public class CategoryProductController {
                 productCate.setCategoryName(category.getName());
                 productCate.setImage(productDetail.getImage());
                 productCate.setRate(product.getRate());
+                productCate.setDiscount(productDetail.getDiscount());
+                productCate.setCreatedDate(category.getCreatedDate());
 
                 // Thêm sản phẩm vào danh sách responseProducts
                 responseProducts.add(productCate);

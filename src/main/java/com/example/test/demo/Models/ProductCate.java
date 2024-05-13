@@ -1,6 +1,9 @@
 package com.example.test.demo.Models;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -8,12 +11,11 @@ import java.util.Objects;
 public class ProductCate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id1")
-    private Long id1;
-
-
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "productId")
+    private Long productId;
 
     @Column(name = "title", length = 300)
     private String title;
@@ -33,19 +35,27 @@ public class ProductCate {
     @Column(name = "rate")
     private float rate;
 
+    @Column(name = "discount")
+    private BigDecimal discount;
+
+    @Column(name = "createdDate")
+    private Date createdDate;
+
     // Constructors, getters, and setters
 
     public ProductCate() {
     }
 
-    public ProductCate(Long productId, String title, int price, String description, String categoryName, String image, float rate) {
-        this.id = productId;
+    public ProductCate(Long productId, String title, int price, String description, String categoryName, String image, float rate, BigDecimal discount, Date createdDate) {
+        this.productId = productId;
         this.title = title;
         this.price = price;
         this.description = description;
         this.categoryName = categoryName;
         this.image = image;
         this.rate = rate;
+        this.discount = discount;
+        this.createdDate = createdDate;
     }
 
     public Long getId() {
@@ -54,6 +64,14 @@ public class ProductCate {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public String getTitle() {
@@ -104,29 +122,21 @@ public class ProductCate {
         this.rate = rate;
     }
 
-    @Override
-    public String toString() {
-        return "ProductCate{" +
-                "productId=" + id +
-                ", title='" + title + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                ", categoryName='" + categoryName + '\'' +
-                ", image='" + image + '\'' +
-                ", rate=" + rate +
-                '}';
+    public BigDecimal getDiscount() {
+        return discount;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ProductCate that = (ProductCate) o;
-        return price == that.price && Float.compare(that.rate, rate) == 0 && Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(categoryName, that.categoryName) && Objects.equals(image, that.image);
+    public void setDiscount(BigDecimal discount) {
+        this.discount = discount;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, price, description, categoryName, image, rate);
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 }
+
+
