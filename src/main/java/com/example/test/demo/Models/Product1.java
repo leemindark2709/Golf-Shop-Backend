@@ -1,12 +1,11 @@
 package com.example.test.demo.Models;
 
 import jakarta.persistence.*;
-
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tblproduct9")
+@Table(name = "tblproduct10")
 public class Product1 {
     @Id
     @SequenceGenerator(
@@ -21,19 +20,20 @@ public class Product1 {
     private Long productID;
 
     @Column(nullable = false, unique = true, length = 300)
-    private String title; // Đổi 'name' thành 'title'
+    private String title;
 
     private String status;
     private int quantity;
     private Long cateID;
     private Long supplierID;
-    private float rate; // Thêm trường rate kiểu float
-    private Date dateReleases; // Thêm trường dateReleases kiểu Date
+    private float rate;
+    private Date dateReleases;
+    private int count; // Trường mới
 
     public Product1() {
     }
 
-    public Product1(Long productID, String title, String status, int quantity, Long cateID, Long supplierID, float rate, Date dateReleases) {
+    public Product1(Long productID, String title, String status, int quantity, Long cateID, Long supplierID, float rate, Date dateReleases, int count) {
         this.productID = productID;
         this.title = title;
         this.status = status;
@@ -42,23 +42,21 @@ public class Product1 {
         this.supplierID = supplierID;
         this.rate = rate;
         this.dateReleases = dateReleases;
+        this.count = count; // Khởi tạo trường mới
     }
 
-    public float getRate() {
-        return rate;
+    // Getters và Setters cho trường mới
+    public int getCount() {
+        return count;
     }
 
-    public void setRate(float rate) {
-        this.rate = rate;
+    public void setCount(int count) {
+        this.count = count;
     }
 
-    public Date getDateReleases() {
-        return dateReleases;
-    }
+    // Các Getters và Setters hiện có
 
-    public void setDateReleases(Date dateReleases) {
-        this.dateReleases = dateReleases;
-    }
+
     public Long getProductID() {
         return productID;
     }
@@ -107,6 +105,23 @@ public class Product1 {
         this.supplierID = supplierID;
     }
 
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
+    }
+
+    public Date getDateReleases() {
+        return dateReleases;
+    }
+
+    public void setDateReleases(Date dateReleases) {
+        this.dateReleases = dateReleases;
+    }
+
+    // Các phương thức toString, equals, và hashCode (bao gồm trường mới)
     @Override
     public String toString() {
         return "Product1{" +
@@ -118,6 +133,7 @@ public class Product1 {
                 ", supplierID=" + supplierID +
                 ", rate=" + rate +
                 ", dateReleases=" + dateReleases +
+                ", count=" + count + // Bao gồm trường mới
                 '}';
     }
 
@@ -126,6 +142,11 @@ public class Product1 {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product1 product1 = (Product1) o;
-        return quantity == product1.quantity && Objects.equals(productID, product1.productID) && Objects.equals(title, product1.title) && Objects.equals(status, product1.status) && Objects.equals(cateID, product1.cateID) && Objects.equals(supplierID, product1.supplierID) && Objects.equals(rate, product1.rate) && Objects.equals(dateReleases, product1.dateReleases);
+        return quantity == product1.quantity && Float.compare(product1.rate, rate) == 0 && count == product1.count && Objects.equals(productID, product1.productID) && Objects.equals(title, product1.title) && Objects.equals(status, product1.status) && Objects.equals(cateID, product1.cateID) && Objects.equals(supplierID, product1.supplierID) && Objects.equals(dateReleases, product1.dateReleases);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productID, title, status, quantity, cateID, supplierID, rate, dateReleases, count);
     }
 }

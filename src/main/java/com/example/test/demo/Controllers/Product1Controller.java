@@ -4,9 +4,6 @@ import com.example.test.demo.Models.Product1;
 import com.example.test.demo.Models.ResponseObject;
 import com.example.test.demo.Repositories.Product1Repository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -75,6 +72,7 @@ public class Product1Controller {
                     product.setSupplierID(newProduct.getSupplierID());
                     product.setRate(newProduct.getRate());
                     product.setDateReleases(newProduct.getDateReleases());
+                    product.setCount(newProduct.getCount()); // Thiết lập trường mới
                     return repository1.save(product);
                 }).orElse(null);
 
@@ -88,5 +86,4 @@ public class Product1Controller {
             );
         }
     }
-
 }
