@@ -2,11 +2,7 @@ package com.example.test.demo.Controllers;
 
 
 import com.example.test.demo.Models.*;
-import com.example.test.demo.Repositories.*;
-import com.example.test.demo.Repositories.newpacket.NewCategoryRepository;
-import com.example.test.demo.Repositories.newpacket.NewImageProductDetailRepository;
-import com.example.test.demo.Repositories.newpacket.NewProductDetailRepository;
-import com.example.test.demo.Repositories.newpacket.NewProductRepository;
+import com.example.test.demo.Repositories.newpacket.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +43,7 @@ public class NewProductController {
         dto.setDescription(productDetail.getDescription());
         dto.setCategory(category.getName());
         dto.setImages(images);
+        dto.setThumbnail(productDetail.getImage()); // Gán giá trị thumbnail
 
         ProductDetailDTO.RatingDTO ratingDTO = new ProductDetailDTO.RatingDTO();
         ratingDTO.setRate(product.getRate());

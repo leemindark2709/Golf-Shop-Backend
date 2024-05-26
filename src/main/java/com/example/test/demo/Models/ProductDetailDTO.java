@@ -9,9 +9,10 @@ public class ProductDetailDTO {
     private String description;
     private String category;
     private List<String> images;
+    private String thumbnail; // Thêm trường mới
     private RatingDTO rating;
 
-    // Getters and setters
+    // Getters và Setters
 
     public Long getId() {
         return id;
@@ -61,6 +62,14 @@ public class ProductDetailDTO {
         this.images = images;
     }
 
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
     public RatingDTO getRating() {
         return rating;
     }
@@ -73,8 +82,7 @@ public class ProductDetailDTO {
         private float rate;
         private int count;
 
-        // Getters and setters
-
+        // Getters và Setters
 
         public float getRate() {
             return rate;
