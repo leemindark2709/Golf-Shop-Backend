@@ -66,13 +66,14 @@ public class Product1Controller {
         Product1 updatedProduct = repository1.findById(id)
                 .map(product -> {
                     product.setTitle(newProduct.getTitle());
-                    product.setStatus(newProduct.getStatus());
+                    product.setPrice(newProduct.getPrice());  // Update price
                     product.setQuantity(newProduct.getQuantity());
                     product.setCateID(newProduct.getCateID());
                     product.setSupplierID(newProduct.getSupplierID());
                     product.setRate(newProduct.getRate());
                     product.setDateReleases(newProduct.getDateReleases());
-                    product.setCount(newProduct.getCount()); // Thiết lập trường mới
+                    product.setCount(newProduct.getCount());
+                    product.setDiscount(newProduct.getDiscount()); // Update discount
                     return repository1.save(product);
                 }).orElse(null);
 

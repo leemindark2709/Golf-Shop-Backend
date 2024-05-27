@@ -1,13 +1,12 @@
 package com.example.test.demo.Models;
 
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
-
 @Entity
-@Table(name = "ProductDetail")
+@Table(name = "ProductDetail2")
 public class ProductDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,19 +22,21 @@ public class ProductDetail {
     @Column(name = "description", length = 500)
     private String description;
 
-    @Column(name = "image", length = 250)
-    private String image;
+    @ElementCollection
+    @CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "product_detail_id"))
+    @Column(name = "image")
+    private List<String> images;
 
-    @Column(name = "size")
-    private Integer size;
+    @Column(name = "size", length = 50)
+    private String size;
 
     @Column(name = "price")
-    private int price;
+    private BigDecimal price;
 
     @Column(name = "discount")
     private BigDecimal discount;
 
-    // Getters and setters
+    // Getters và setters
 
     public int getId() {
         return id;
@@ -69,27 +70,27 @@ public class ProductDetail {
         this.description = description;
     }
 
-    public String getImage() {
-        return image;
+    public List<String> getImages() {
+        return images;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
-    public Integer getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(String size) {
         this.size = size;
     }
 
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -108,8 +109,8 @@ public class ProductDetail {
                 ", productID=" + productID +
                 ", color='" + color + '\'' +
                 ", description='" + description + '\'' +
-                ", image='" + image + '\'' +
-                ", size=" + size +
+                ", images=" + images +
+                ", size='" + size + '\'' +
                 ", price=" + price +
                 ", discount=" + discount +
                 '}';
@@ -120,11 +121,11 @@ public class ProductDetail {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductDetail that = (ProductDetail) o;
-        return id == that.id && Objects.equals(productID, that.productID) && Objects.equals(color, that.color) && Objects.equals(description, that.description) && Objects.equals(image, that.image) && Objects.equals(size, that.size) && Objects.equals(price, that.price) && Objects.equals(discount, that.discount);
+        return id == that.id && Objects.equals(productID, that.productID) && Objects.equals(color, that.color) && Objects.equals(description, that.description) && Objects.equals(images, that.images) && Objects.equals(size, that.size) && Objects.equals(price, that.price) && Objects.equals(discount, that.discount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, productID, color, description, image, size, price, discount);
+        return Objects.hash(id, productID, color, description, images, size, price, discount);
     }
 }

@@ -4,8 +4,9 @@ import com.example.test.demo.Models.ProductDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ProductDetailRepository extends JpaRepository<ProductDetail, Integer> {
-    ProductDetail findByProductID(Long productID);
-    // Bạn có thể định nghĩa các phương thức truy vấn tùy chỉnh ở đây nếu cần
+    Optional<ProductDetail> findByProductID(Integer productID);
 }

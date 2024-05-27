@@ -22,41 +22,42 @@ public class ProductDetailController {
         return productDetailRepository.findAll();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ResponseObject> getProductDetailById(@PathVariable int id) {
-        Optional<ProductDetail> productDetail = productDetailRepository.findById(id);
+    @GetMapping("/{productID}")
+    public ResponseEntity<ResponseObject> getProductDetailByProductID(@PathVariable Integer productID) {
+        Optional<ProductDetail> productDetail = productDetailRepository.findByProductID(productID);
         if (productDetail.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query product detail successfully", productDetail));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "truy vấn chi tiết sản phẩm thành công", productDetail));
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject("false", "can not find product detail with id = " + id, ""));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject("false", "không thể tìm thấy chi tiết sản phẩm với productID = " + productID, ""));
         }
     }
 
     @PostMapping("/insert")
     public ResponseEntity<ResponseObject> insertProductDetail(@RequestBody ProductDetail newProductDetail) {
         ProductDetail savedProductDetail = productDetailRepository.save(newProductDetail);
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "insert product detail successfully", savedProductDetail));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "thêm chi tiết sản phẩm thành công", savedProductDetail));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponseObject> updateProductDetail(@PathVariable int id, @RequestBody ProductDetail updatedProductDetail) {
-        Optional<ProductDetail> existingProductDetail = productDetailRepository.findById(id);
+    @PutMapping("/{productID}")
+    public ResponseEntity<ResponseObject> updateProductDetail(@PathVariable Integer productID, @RequestBody ProductDetail updatedProductDetail) {
+        Optional<ProductDetail> existingProductDetail = productDetailRepository.findByProductID(productID);
         if (existingProductDetail.isPresent()) {
-            updatedProductDetail.setId(id);
+            updatedProductDetail.setId(existingProductDetail.get().getId());
             ProductDetail savedProductDetail = productDetailRepository.save(updatedProductDetail);
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "update product detail successfully", savedProductDetail));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "cập nhật chi tiết sản phẩm thành công", savedProductDetail));
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject("false", "can not find product detail with id = " + id, ""));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject("false", "không thể tìm thấy chi tiết sản phẩm với productID = " + productID, ""));
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseObject> deleteProductDetail(@PathVariable int id) {
-        if (productDetailRepository.existsById(id)) {
-            productDetailRepository.deleteById(id);
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "delete product detail successfully", ""));
+    @DeleteMapping("/{productID}")
+    public ResponseEntity<ResponseObject> deleteProductDetail(@PathVariable Integer productID) {
+        Optional<ProductDetail> productDetail = productDetailRepository.findByProductID(productID);
+        if (productDetail.isPresent()) {
+            productDetailRepository.deleteById(productDetail.get().getId());
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "xóa chi tiết sản phẩm thành công", ""));
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject("false", "can not find product detail with id = " + id, ""));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject("false", "không thể tìm thấy chi tiết sản phẩm với productID = " + productID, ""));
         }
     }
 }
