@@ -6,18 +6,20 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "ProductDetail2")
+@Table(name = "ProductDetail27")
 public class ProductDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "productID")
+    @Column(name = "productID", unique = true)
     private Integer productID;
 
-    @Column(name = "color", length = 50)
-    private String color;
+    @ElementCollection
+    @CollectionTable(name = "product_colors", joinColumns = @JoinColumn(name = "product_detail_id"))
+    @Column(name = "color")
+    private List<String> colors;
 
     @Column(name = "description", length = 500)
     private String description;
@@ -27,8 +29,10 @@ public class ProductDetail {
     @Column(name = "image")
     private List<String> images;
 
-    @Column(name = "size", length = 50)
-    private String size;
+    @ElementCollection
+    @CollectionTable(name = "product_sizes", joinColumns = @JoinColumn(name = "product_detail_id"))
+    @Column(name = "size")
+    private List<String> sizes;
 
     @Column(name = "price")
     private BigDecimal price;
@@ -54,12 +58,12 @@ public class ProductDetail {
         this.productID = productID;
     }
 
-    public String getColor() {
-        return color;
+    public List<String> getColors() {
+        return colors;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setColors(List<String> colors) {
+        this.colors = colors;
     }
 
     public String getDescription() {
@@ -78,12 +82,12 @@ public class ProductDetail {
         this.images = images;
     }
 
-    public String getSize() {
-        return size;
+    public List<String> getSizes() {
+        return sizes;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setSizes(List<String> sizes) {
+        this.sizes = sizes;
     }
 
     public BigDecimal getPrice() {
@@ -107,10 +111,10 @@ public class ProductDetail {
         return "ProductDetail{" +
                 "id=" + id +
                 ", productID=" + productID +
-                ", color='" + color + '\'' +
+                ", colors=" + colors +
                 ", description='" + description + '\'' +
                 ", images=" + images +
-                ", size='" + size + '\'' +
+                ", sizes=" + sizes +
                 ", price=" + price +
                 ", discount=" + discount +
                 '}';
@@ -121,11 +125,11 @@ public class ProductDetail {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductDetail that = (ProductDetail) o;
-        return id == that.id && Objects.equals(productID, that.productID) && Objects.equals(color, that.color) && Objects.equals(description, that.description) && Objects.equals(images, that.images) && Objects.equals(size, that.size) && Objects.equals(price, that.price) && Objects.equals(discount, that.discount);
+        return id == that.id && Objects.equals(productID, that.productID) && Objects.equals(colors, that.colors) && Objects.equals(description, that.description) && Objects.equals(images, that.images) && Objects.equals(sizes, that.sizes) && Objects.equals(price, that.price) && Objects.equals(discount, that.discount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, productID, color, description, images, size, price, discount);
+        return Objects.hash(id, productID, colors, description, images, sizes, price, discount);
     }
 }

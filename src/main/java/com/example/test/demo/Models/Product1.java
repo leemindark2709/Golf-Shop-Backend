@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tblproduct11")
+@Table(name = "Product")
 public class Product1 {
     @Id
     @SequenceGenerator(

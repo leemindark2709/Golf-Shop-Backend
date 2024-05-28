@@ -34,8 +34,13 @@ public class ProductDetailController {
 
     @PostMapping("/insert")
     public ResponseEntity<ResponseObject> insertProductDetail(@RequestBody ProductDetail newProductDetail) {
-        ProductDetail savedProductDetail = productDetailRepository.save(newProductDetail);
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "thêm chi tiết sản phẩm thành công", savedProductDetail));
+        Optional<ProductDetail> existingProductDetail = productDetailRepository.findByProductID(newProductDetail.getProductID());
+        if (existingProductDetail.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResponseObject("false", "productID đã tồn tại", ""));
+        } else {
+            ProductDetail savedProductDetail = productDetailRepository.save(newProductDetail);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "thêm chi tiết sản phẩm thành công", savedProductDetail));
+        }
     }
 
     @PutMapping("/{productID}")
