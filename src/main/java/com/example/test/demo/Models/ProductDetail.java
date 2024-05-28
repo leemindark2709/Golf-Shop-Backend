@@ -16,6 +16,9 @@ public class ProductDetail {
     @Column(name = "productID", unique = true)
     private Integer productID;
 
+    @Column(name = "title")
+    private String title;
+
     @ElementCollection
     @CollectionTable(name = "product_colors", joinColumns = @JoinColumn(name = "product_detail_id"))
     @Column(name = "color")
@@ -56,6 +59,14 @@ public class ProductDetail {
 
     public void setProductID(Integer productID) {
         this.productID = productID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public List<String> getColors() {
@@ -111,6 +122,7 @@ public class ProductDetail {
         return "ProductDetail{" +
                 "id=" + id +
                 ", productID=" + productID +
+                ", title='" + title + '\'' +
                 ", colors=" + colors +
                 ", description='" + description + '\'' +
                 ", images=" + images +
@@ -125,11 +137,11 @@ public class ProductDetail {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductDetail that = (ProductDetail) o;
-        return id == that.id && Objects.equals(productID, that.productID) && Objects.equals(colors, that.colors) && Objects.equals(description, that.description) && Objects.equals(images, that.images) && Objects.equals(sizes, that.sizes) && Objects.equals(price, that.price) && Objects.equals(discount, that.discount);
+        return id == that.id && Objects.equals(productID, that.productID) && Objects.equals(title, that.title) && Objects.equals(colors, that.colors) && Objects.equals(description, that.description) && Objects.equals(images, that.images) && Objects.equals(sizes, that.sizes) && Objects.equals(price, that.price) && Objects.equals(discount, that.discount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, productID, colors, description, images, sizes, price, discount);
+        return Objects.hash(id, productID, title, colors, description, images, sizes, price, discount);
     }
 }

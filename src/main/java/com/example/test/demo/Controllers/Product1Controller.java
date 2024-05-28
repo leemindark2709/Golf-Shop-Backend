@@ -66,14 +66,15 @@ public class Product1Controller {
         Product1 updatedProduct = repository1.findById(id)
                 .map(product -> {
                     product.setTitle(newProduct.getTitle());
-                    product.setPrice(newProduct.getPrice());  // Update price
+                    product.setPrice(newProduct.getPrice());
                     product.setQuantity(newProduct.getQuantity());
                     product.setCateID(newProduct.getCateID());
                     product.setSupplierID(newProduct.getSupplierID());
                     product.setRate(newProduct.getRate());
                     product.setDateReleases(newProduct.getDateReleases());
                     product.setCount(newProduct.getCount());
-                    product.setDiscount(newProduct.getDiscount()); // Update discount
+                    product.setDiscount(newProduct.getDiscount());
+                    product.setImage(newProduct.getImage()); // Update image
                     return repository1.save(product);
                 }).orElse(null);
 

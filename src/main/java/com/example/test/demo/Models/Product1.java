@@ -22,19 +22,22 @@ public class Product1 {
     @Column(nullable = false, unique = true, length = 300)
     private String title;
 
-    private int price;  // Changed from status to price
+    private int price;
     private int quantity;
     private Long cateID;
     private Long supplierID;
     private float rate;
     private Date dateReleases;
-    private int count;  // New field
-    private int discount; // New field
+    private int count;
+    private int discount;
+
+    @Column(name = "image")  // New field
+    private String image;
 
     public Product1() {
     }
 
-    public Product1(Long productID, String title, int price, int quantity, Long cateID, Long supplierID, float rate, Date dateReleases, int count, int discount) {
+    public Product1(Long productID, String title, int price, int quantity, Long cateID, Long supplierID, float rate, Date dateReleases, int count, int discount, String image) {
         this.productID = productID;
         this.title = title;
         this.price = price;
@@ -45,6 +48,7 @@ public class Product1 {
         this.dateReleases = dateReleases;
         this.count = count;
         this.discount = discount;
+        this.image = image;
     }
 
     // Getters and Setters
@@ -129,6 +133,14 @@ public class Product1 {
         this.discount = discount;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Product1{" +
@@ -142,6 +154,7 @@ public class Product1 {
                 ", dateReleases=" + dateReleases +
                 ", count=" + count +
                 ", discount=" + discount +
+                ", image='" + image + '\'' +
                 '}';
     }
 
@@ -159,11 +172,12 @@ public class Product1 {
                 Objects.equals(title, product1.title) &&
                 Objects.equals(cateID, product1.cateID) &&
                 Objects.equals(supplierID, product1.supplierID) &&
-                Objects.equals(dateReleases, product1.dateReleases);
+                Objects.equals(dateReleases, product1.dateReleases) &&
+                Objects.equals(image, product1.image);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productID, title, price, quantity, cateID, supplierID, rate, dateReleases, count, discount);
+        return Objects.hash(productID, title, price, quantity, cateID, supplierID, rate, dateReleases, count, discount, image);
     }
 }
