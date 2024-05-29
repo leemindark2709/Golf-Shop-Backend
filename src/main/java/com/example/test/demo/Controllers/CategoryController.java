@@ -1,8 +1,10 @@
 package com.example.test.demo.Controllers;
 
 import com.example.test.demo.Models.Category;
+import com.example.test.demo.Models.Product1;
 import com.example.test.demo.Models.ResponseObject;
 import com.example.test.demo.Repositories.CategoryRepository;
+import com.example.test.demo.Repositories.Product1Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,9 @@ import java.util.Optional;
 public class CategoryController {
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private Product1Repository product1Repository;
 
     @GetMapping("")
     public List<Category> getAllCategories() {
@@ -57,6 +62,18 @@ public class CategoryController {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "delete category successfully", ""));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject("false", "can not find category with id = " + id, ""));
+        }
+    }
+
+    // New API to find products by category name
+    @GetMapping("/findProductsByCategoryName")
+    public ResponseEntity<ResponseObject> findProductsByCategoryName(@RequestParam String categoryName) {
+        Category category = categoryRepository.findByName(categoryName);
+        if (category != null) {
+            List<Product1> products = product1Repository.findByCateID(category.getCateID());
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query products successfully", products));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject("false", "can not find category with name = " + categoryName, ""));
         }
     }
 }
